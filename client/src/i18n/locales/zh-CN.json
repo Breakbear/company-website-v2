@@ -1,0 +1,123 @@
+{
+  "nav": {
+    "home": "首页",
+    "about": "关于我们",
+    "products": "产品中心",
+    "news": "新闻动态",
+    "contact": "联系我们"
+  },
+  "home": {
+    "heroTitle": "专业贸易解决方案",
+    "heroSubtitle": "为您提供优质的产品和服务",
+    "heroCta": "了解更多",
+    "featuredProducts": "推荐产品",
+    "latestNews": "最新动态",
+    "viewAll": "查看全部",
+    "whyChooseUs": "为什么选择我们",
+    "quality": "品质保证",
+    "qualityDesc": "严格的质量控制体系，确保每一件产品都符合标准",
+    "service": "专业服务",
+    "serviceDesc": "经验丰富的团队，为您提供全方位的服务支持",
+    "global": "全球网络",
+    "globalDesc": "遍布全球的供应链网络，快速响应您的需求"
+  },
+  "about": {
+    "title": "关于我们",
+    "companyIntro": "公司简介",
+    "companyDesc": "我们是一家专业的贸易公司，致力于为客户提供优质的产品和服务。多年来，我们建立了完善的供应链体系，与众多知名企业建立了长期合作关系。",
+    "ourHistory": "发展历程",
+    "ourTeam": "我们的团队",
+    "ourValues": "企业价值观",
+    "mission": "使命",
+    "missionDesc": "为客户提供最优质的产品和服务",
+    "vision": "愿景",
+    "visionDesc": "成为行业领先的贸易服务商",
+    "values": "价值观",
+    "valuesDesc": "诚信、专业、创新、共赢"
+  },
+  "products": {
+    "title": "产品中心",
+    "all": "全部",
+    "searchPlaceholder": "搜索产品...",
+    "noResults": "暂无相关产品",
+    "specifications": "产品规格",
+    "inquiry": "立即咨询",
+    "backToList": "返回列表"
+  },
+  "news": {
+    "title": "新闻动态",
+    "all": "全部",
+    "readMore": "阅读更多",
+    "backToList": "返回列表",
+    "related": "相关推荐"
+  },
+  "contact": {
+    "title": "联系我们",
+    "getInTouch": "联系我们",
+    "getInTouchDesc": "如有任何问题或需求，请随时与我们联系",
+    "form": {
+      "name": "姓名",
+      "email": "邮箱",
+      "phone": "电话",
+      "company": "公司",
+      "subject": "主题",
+      "message": "留言内容",
+      "submit": "提交留言",
+      "namePlaceholder": "请输入您的姓名",
+      "emailPlaceholder": "请输入您的邮箱",
+      "phonePlaceholder": "请输入您的电话",
+      "companyPlaceholder": "请输入您的公司名称",
+      "subjectPlaceholder": "请输入咨询主题",
+      "messagePlaceholder": "请输入您的留言内容",
+      "success": "留言提交成功，我们会尽快与您联系！",
+      "error": "提交失败，请稍后重试"
+    },
+    "info": {
+      "title": "联系方式",
+      "address": "公司地址",
+      "phone": "联系电话",
+      "email": "电子邮箱",
+      "hours": "工作时间"
+    }
+  },
+  "footer": {
+    "companyDesc": "专业的贸易服务提供商，致力于为客户提供优质的产品和服务",
+    "quickLinks": "快速链接",
+    "contactUs": "联系我们",
+    "followUs": "关注我们",
+    "copyright": "版权所有"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "加载失败",
+    "retry": "重试",
+    "submit": "提交",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "add": "添加",
+    "search": "搜索",
+    "filter": "筛选",
+    "all": "全部",
+    "status": "状态",
+    "actions": "操作",
+    "confirm": "确认",
+    "success": "操作成功",
+    "failed": "操作失败"
+  },
+  "admin": {
+    "dashboard": "控制台",
+    "products": "产品管理",
+    "news": "新闻管理",
+    "contacts": "留言管理",
+    "settings": "系统设置",
+    "logout": "退出登录",
+    "welcome": "欢迎回来",
+    "overview": "数据概览",
+    "totalProducts": "产品总数",
+    "totalNews": "新闻总数",
+    "totalContacts": "留言总数",
+    "unreadContacts": "未读留言"
+  }
+}

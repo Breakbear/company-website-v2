@@ -1,0 +1,123 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "products": "Products",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "home": {
+    "heroTitle": "Professional Trade Solutions",
+    "heroSubtitle": "Providing quality products and services for you",
+    "heroCta": "Learn More",
+    "featuredProducts": "Featured Products",
+    "latestNews": "Latest News",
+    "viewAll": "View All",
+    "whyChooseUs": "Why Choose Us",
+    "quality": "Quality Assurance",
+    "qualityDesc": "Strict quality control system ensures every product meets standards",
+    "service": "Professional Service",
+    "serviceDesc": "Experienced team providing comprehensive service support",
+    "global": "Global Network",
+    "globalDesc": "Global supply chain network for quick response to your needs"
+  },
+  "about": {
+    "title": "About Us",
+    "companyIntro": "Company Introduction",
+    "companyDesc": "We are a professional trading company dedicated to providing quality products and services. Over the years, we have established a comprehensive supply chain system and built long-term partnerships with many renowned enterprises.",
+    "ourHistory": "Our History",
+    "ourTeam": "Our Team",
+    "ourValues": "Our Values",
+    "mission": "Mission",
+    "missionDesc": "To provide the highest quality products and services for our customers",
+    "vision": "Vision",
+    "visionDesc": "To become a leading trade service provider",
+    "values": "Values",
+    "valuesDesc": "Integrity, Professionalism, Innovation, Win-Win"
+  },
+  "products": {
+    "title": "Products",
+    "all": "All",
+    "searchPlaceholder": "Search products...",
+    "noResults": "No products found",
+    "specifications": "Specifications",
+    "inquiry": "Inquire Now",
+    "backToList": "Back to List"
+  },
+  "news": {
+    "title": "News",
+    "all": "All",
+    "readMore": "Read More",
+    "backToList": "Back to List",
+    "related": "Related News"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "getInTouch": "Get in Touch",
+    "getInTouchDesc": "Feel free to contact us if you have any questions or needs",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "company": "Company",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Submit",
+      "namePlaceholder": "Enter your name",
+      "emailPlaceholder": "Enter your email",
+      "phonePlaceholder": "Enter your phone",
+      "companyPlaceholder": "Enter your company name",
+      "subjectPlaceholder": "Enter subject",
+      "messagePlaceholder": "Enter your message",
+      "success": "Message sent successfully! We will contact you soon.",
+      "error": "Submission failed. Please try again later."
+    },
+    "info": {
+      "title": "Contact Information",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Business Hours"
+    }
+  },
+  "footer": {
+    "companyDesc": "Professional trade service provider dedicated to quality products and services",
+    "quickLinks": "Quick Links",
+    "contactUs": "Contact Us",
+    "followUs": "Follow Us",
+    "copyright": "All Rights Reserved"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Loading failed",
+    "retry": "Retry",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "status": "Status",
+    "actions": "Actions",
+    "confirm": "Confirm",
+    "success": "Success",
+    "failed": "Failed"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "news": "News",
+    "contacts": "Messages",
+    "settings": "Settings",
+    "logout": "Logout",
+    "welcome": "Welcome back",
+    "overview": "Overview",
+    "totalProducts": "Total Products",
+    "totalNews": "Total News",
+    "totalContacts": "Total Messages",
+    "unreadContacts": "Unread Messages"
+  }
+}
