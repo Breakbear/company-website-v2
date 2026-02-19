@@ -6,6 +6,7 @@ import {
   Newspaper,
   Mail,
   Settings,
+  FileText,
   LogOut,
   Menu,
   X,
@@ -26,6 +27,7 @@ const AdminLayoutContent: React.FC = () => {
     { path: '/admin/news', icon: Newspaper, label: t('admin.news') },
     { path: '/admin/contacts', icon: Mail, label: t('admin.contacts') },
     { path: '/admin/settings', icon: Settings, label: t('admin.settings') },
+    { path: '/admin/content-checklist', icon: FileText, label: t('admin.contentChecklist') },
   ];
 
   const handleLogout = () => {

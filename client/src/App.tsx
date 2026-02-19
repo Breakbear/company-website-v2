@@ -15,6 +15,7 @@ import AdminProducts from './pages/admin/Products'
 import AdminNews from './pages/admin/News'
 import AdminContacts from './pages/admin/Contacts'
 import AdminSettings from './pages/admin/Settings'
+import AdminContentChecklist from './pages/admin/ContentChecklist'
 import Login from './pages/admin/Login'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 
@@ -41,6 +42,7 @@ function App() {
                 <Route path="news" element={<AdminNews />} />
                 <Route path="contacts" element={<AdminContacts />} />
                 <Route path="settings" element={<AdminSettings />} />
+                <Route path="content-checklist" element={<AdminContentChecklist />} />
               </Route>
             </Route>
           </Routes>
