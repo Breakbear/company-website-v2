@@ -29,3 +29,11 @@ If `JWT_SECRET` is missing, server startup fails by design.
 JWT payload now includes `role`, and stale tokens are rejected after role changes.
 Plan a one-time relogin notice for admin users during release.
 
+## 4) CI quality gate
+
+GitHub Actions workflow `.github/workflows/verify.yml` now runs on push/PR to `main`:
+
+- `npm ci`
+- `npm run verify`
+
+Any regression in typecheck/build/smoke tests will block the pipeline.

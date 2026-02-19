@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
+import { body, validationResult } from 'express-validator';
 import db from '../config/database';
 import { v4 as uuidv4 } from 'uuid';
 import { parseLimit, parsePage } from '../utils/pagination';
+import { isUrlOrUploadPath } from '../utils/validation';
 
 interface NewsRow {
   id: string;
@@ -35,6 +37,43 @@ const formatNews = (row: any) => ({
   createdAt: row.createdAt,
   updatedAt: row.updatedAt,
 });
+
+const newsValidationRules = [
+  body('title.zh').isString().trim().notEmpty().isLength({ max: 250 }).withMessage('title.zh is required'),
+  body('title.en').isString().trim().notEmpty().isLength({ max: 250 }).withMessage('title.en is required'),
+  body('content.zh')
+    .isString()
+    .trim()
+    .notEmpty()
+    .isLength({ max: 20000 })
+    .withMessage('content.zh is required'),
+  body('content.en')
+    .isString()
+    .trim()
+    .notEmpty()
+    .isLength({ max: 20000 })
+    .withMessage('content.en is required'),
+  body('summary.zh').optional().isString().trim().isLength({ max: 2000 }),
+  body('summary.en').optional().isString().trim().isLength({ max: 2000 }),
+  body('category').isString().trim().notEmpty().isLength({ max: 100 }).withMessage('category is required'),
+  body('coverImage')
+    .optional({ values: 'null' })
+    .isString()
+    .bail()
+    .custom((value) => isUrlOrUploadPath(value))
+    .withMessage('coverImage must be a URL or /uploads path'),
+  body('author').optional().isString().trim().isLength({ min: 1, max: 100 }),
+  body('status').optional().isIn(['published', 'draft']).withMessage("status must be 'published' or 'draft'"),
+];
+
+const validateNewsPayload = (req: Request, res: Response): boolean => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ success: false, errors: errors.array() });
+    return false;
+  }
+  return true;
+};
 
 export const getNewsList = (req: Request, res: Response): void => {
   const page = parsePage(req.query.page, 1);
@@ -78,49 +117,63 @@ export const getNews = (req: Request, res: Response): void => {
   res.json({ success: true, data: formatNews(row) });
 };
 
-export const createNews = (req: Request, res: Response): void => {
-  const id = uuidv4();
-  const { title, content, summary, category, coverImage, author, status } = req.body;
+export const createNews = [
+  ...newsValidationRules,
+  (req: Request, res: Response): void => {
+    if (!validateNewsPayload(req, res)) {
+      return;
+    }
 
-  db.prepare(`
-    INSERT INTO news (id, titleZh, titleEn, contentZh, contentEn, summaryZh, summaryEn, category, coverImage, author, status, publishedAt)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
-    id, title.zh, title.en, content.zh, content.en,
-    summary?.zh || null, summary?.en || null,
-    category, coverImage || null, author || 'Admin', status || 'published',
-    new Date().toISOString()
-  );
+    const id = uuidv4();
+    const { title, content, summary, category, coverImage, author, status } = req.body;
 
-  const row = db.prepare('SELECT * FROM news WHERE id = ?').get(id) as NewsRow;
-  res.status(201).json({ success: true, data: formatNews(row) });
-};
+    db.prepare(`
+      INSERT INTO news (id, titleZh, titleEn, contentZh, contentEn, summaryZh, summaryEn, category, coverImage, author, status, publishedAt)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      id, title.zh, title.en, content.zh, content.en,
+      summary?.zh || null, summary?.en || null,
+      category, coverImage || null, author || 'Admin', status || 'published',
+      new Date().toISOString()
+    );
 
-export const updateNews = (req: Request, res: Response): void => {
-  const { title, content, summary, category, coverImage, author, status } = req.body;
+    const row = db.prepare('SELECT * FROM news WHERE id = ?').get(id) as NewsRow;
+    res.status(201).json({ success: true, data: formatNews(row) });
+  },
+];
 
-  db.prepare(`
-    UPDATE news SET
-      titleZh = ?, titleEn = ?, contentZh = ?, contentEn = ?,
-      summaryZh = ?, summaryEn = ?, category = ?, coverImage = ?,
-      author = ?, status = ?, updatedAt = ?
-    WHERE id = ?
-  `).run(
-    title?.zh, title?.en, content?.zh, content?.en,
-    summary?.zh || null, summary?.en || null,
-    category, coverImage || null, author, status,
-    new Date().toISOString(), req.params.id
-  );
+export const updateNews = [
+  ...newsValidationRules,
+  (req: Request, res: Response): void => {
+    if (!validateNewsPayload(req, res)) {
+      return;
+    }
 
-  const row = db.prepare('SELECT * FROM news WHERE id = ?').get(req.params.id) as NewsRow;
-  
-  if (!row) {
-    res.status(404).json({ success: false, message: 'News not found' });
-    return;
-  }
+    const { title, content, summary, category, coverImage, author, status } = req.body;
 
-  res.json({ success: true, data: formatNews(row) });
-};
+    db.prepare(`
+      UPDATE news SET
+        titleZh = ?, titleEn = ?, contentZh = ?, contentEn = ?,
+        summaryZh = ?, summaryEn = ?, category = ?, coverImage = ?,
+        author = ?, status = ?, updatedAt = ?
+      WHERE id = ?
+    `).run(
+      title?.zh, title?.en, content?.zh, content?.en,
+      summary?.zh || null, summary?.en || null,
+      category, coverImage || null, author, status,
+      new Date().toISOString(), req.params.id
+    );
+
+    const row = db.prepare('SELECT * FROM news WHERE id = ?').get(req.params.id) as NewsRow;
+
+    if (!row) {
+      res.status(404).json({ success: false, message: 'News not found' });
+      return;
+    }
+
+    res.json({ success: true, data: formatNews(row) });
+  },
+];
 
 export const deleteNews = (req: Request, res: Response): void => {
   const result = db.prepare('DELETE FROM news WHERE id = ?').run(req.params.id);
