@@ -43,7 +43,7 @@ const validateOptionalAssetPath = (value: unknown): boolean => {
 
 export const getSettings = (req: Request, res: Response): void => {
   let row = db.prepare('SELECT * FROM settings LIMIT 1').get() as any;
-  
+
   if (!row) {
     const id = uuidv4();
     db.prepare(`
@@ -149,3 +149,4 @@ export const updateSettings = [
     res.json({ success: true, data: formatSettings(updatedRow) });
   },
 ];
+

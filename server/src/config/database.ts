@@ -8,7 +8,6 @@ if (!fs.existsSync(dataDir)) {
 }
 
 const dbPath = path.join(dataDir, 'database.sqlite');
-
 const db: Database.Database = new Database(dbPath);
 
 db.pragma('journal_mode = WAL');
@@ -119,3 +118,4 @@ db.exec(`
 console.log('SQLite database initialized successfully');
 
 export default db;
+
