@@ -44,6 +44,7 @@ const setNestedValue = (target: Record<string, unknown>, path: string, value: un
 };
 
 const sectionCardClass = 'rounded-xl border border-gray-200 bg-white p-6 shadow-sm';
+type HomePanel = 'hero' | 'metrics' | 'story' | 'milestones' | 'team' | 'cta';
 
 const AdminSettings: React.FC = () => {
   const { language } = useLanguage();
@@ -51,6 +52,7 @@ const AdminSettings: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [activeHomePanel, setActiveHomePanel] = useState<HomePanel>('hero');
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -71,6 +73,14 @@ const AdminSettings: React.FC = () => {
   }, []);
 
   const homepageContent = (settings.homepageContent ?? cloneDeep(defaultHomepageContent)) as HomepageContent;
+  const homePanels: Array<{ key: HomePanel; label: string }> = [
+    { key: 'hero', label: language === 'zh-CN' ? 'Hero 轮播' : 'Hero Slides' },
+    { key: 'metrics', label: language === 'zh-CN' ? '企业实力' : 'Strength Metrics' },
+    { key: 'story', label: language === 'zh-CN' ? '品牌故事' : 'Brand Story' },
+    { key: 'milestones', label: language === 'zh-CN' ? '发展历程' : 'Milestones' },
+    { key: 'team', label: language === 'zh-CN' ? '团队成员' : 'Team Members' },
+    { key: 'cta', label: 'CTA' },
+  ];
 
   const handleChange = (path: string, value: string) => {
     setSettings((prev) => {
@@ -192,9 +202,29 @@ const AdminSettings: React.FC = () => {
 
       <section className={sectionCardClass}>
         <h2 className="text-lg font-semibold text-gray-900">{language === 'zh-CN' ? '首页内容管理' : 'Homepage Content'}</h2>
+        <div className="mt-4 flex flex-wrap gap-2 border-b border-gray-200 pb-4">
+          {homePanels.map((panel) => (
+            <button
+              key={panel.key}
+              type="button"
+              onClick={() => {
+                setActiveHomePanel(panel.key);
+                const target = document.getElementById(`home-${panel.key}`);
+                target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className={`rounded-full px-4 py-2 text-sm ${
+                activeHomePanel === panel.key
+                  ? 'bg-primary-600 text-white'
+                  : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              {panel.label}
+            </button>
+          ))}
+        </div>
 
         <div className="mt-6 space-y-8">
-          <div>
+          <div id="home-hero" className="scroll-mt-24">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">{language === 'zh-CN' ? 'Hero 轮播' : 'Hero Slides'}</h3>
               <button
@@ -267,7 +297,7 @@ const AdminSettings: React.FC = () => {
             </div>
           </div>
 
-          <div>
+          <div id="home-metrics" className="scroll-mt-24">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">{language === 'zh-CN' ? '企业实力指标' : 'Strength Metrics'}</h3>
               <button
@@ -326,7 +356,7 @@ const AdminSettings: React.FC = () => {
             </div>
           </div>
 
-          <div className="rounded-lg border border-gray-200 p-4">
+          <div id="home-story" className="scroll-mt-24 rounded-lg border border-gray-200 p-4">
             <h3 className="mb-3 font-semibold text-gray-900">{language === 'zh-CN' ? '品牌故事' : 'Brand Story'}</h3>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <div>
@@ -360,7 +390,7 @@ const AdminSettings: React.FC = () => {
             </div>
           </div>
 
-          <div>
+          <div id="home-milestones" className="scroll-mt-24">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">{language === 'zh-CN' ? '发展历程' : 'Milestones'}</h3>
               <button
@@ -419,7 +449,7 @@ const AdminSettings: React.FC = () => {
             </div>
           </div>
 
-          <div>
+          <div id="home-team" className="scroll-mt-24">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">{language === 'zh-CN' ? '团队成员' : 'Team Members'}</h3>
               <button
@@ -487,7 +517,7 @@ const AdminSettings: React.FC = () => {
             </div>
           </div>
 
-          <div className="rounded-lg border border-gray-200 p-4">
+          <div id="home-cta" className="scroll-mt-24 rounded-lg border border-gray-200 p-4">
             <h3 className="mb-3 font-semibold text-gray-900">{language === 'zh-CN' ? '联系 CTA' : 'Contact CTA'}</h3>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <div>
