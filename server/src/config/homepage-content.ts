@@ -1,5 +1,3 @@
-import api from './api';
-
 export interface LocalizedText {
   zh: string;
   en: string;
@@ -55,69 +53,6 @@ export interface HomepageContent {
   team: TeamMember[];
   cta: HomepageCta;
 }
-
-export interface Settings {
-  _id: string;
-  siteName: {
-    zh: string;
-    en: string;
-  };
-  siteDescription: {
-    zh: string;
-    en: string;
-  };
-  logo: string;
-  favicon: string;
-  contact: {
-    address: {
-      zh: string;
-      en: string;
-    };
-    phone: string;
-    email: string;
-    fax?: string;
-  };
-  social: {
-    wechat?: string;
-    weibo?: string;
-    linkedin?: string;
-    facebook?: string;
-    twitter?: string;
-  };
-  seo: {
-    keywords: {
-      zh: string;
-      en: string;
-    };
-    description: {
-      zh: string;
-      en: string;
-    };
-  };
-  about: {
-    zh: string;
-    en: string;
-  };
-  banners: {
-    image: string;
-    link?: string;
-    title: {
-      zh: string;
-      en: string;
-    };
-  }[];
-  homepageContent: HomepageContent;
-}
-
-export const getSettings = async (): Promise<{ success: boolean; data: Settings }> => {
-  const response = await api.get('/settings');
-  return response.data;
-};
-
-export const updateSettings = async (data: Partial<Settings>): Promise<{ success: boolean; data: Settings }> => {
-  const response = await api.put('/settings', data);
-  return response.data;
-};
 
 export const defaultHomepageContent: HomepageContent = {
   heroSlides: [
@@ -264,3 +199,4 @@ export const defaultHomepageContent: HomepageContent = {
     backgroundImage: 'https://images.unsplash.com/photo-1581093450021-4a7360e9a8f0?w=1920&auto=format&fit=crop',
   },
 };
+

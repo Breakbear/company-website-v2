@@ -17,10 +17,10 @@ const Products: React.FC = () => {
 
   const categories = [
     { id: 'all', name: { zh: '全部', en: 'All' } },
-    { id: 'electronics', name: { zh: '电子产品', en: 'Electronics' } },
-    { id: 'machinery', name: { zh: '机械设备', en: 'Machinery' } },
-    { id: 'consumer', name: { zh: '消费品', en: 'Consumer Goods' } },
-    { id: 'materials', name: { zh: '原材料', en: 'Materials' } },
+    { id: 'hydraulic-wrench', name: { zh: '液压扳手', en: 'Hydraulic Wrenches' } },
+    { id: 'hydraulic-pump', name: { zh: '液压泵站', en: 'Hydraulic Pumps' } },
+    { id: 'accessories', name: { zh: '配套附件', en: 'Accessories' } },
+    { id: 'service', name: { zh: '工程服务', en: 'Engineering Services' } },
   ];
 
   useEffect(() => {

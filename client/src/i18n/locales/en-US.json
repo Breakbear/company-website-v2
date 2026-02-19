@@ -1,39 +1,39 @@
 {
   "nav": {
     "home": "Home",
-    "about": "About Us",
+    "about": "About",
     "products": "Products",
     "news": "News",
     "contact": "Contact"
   },
   "home": {
-    "heroTitle": "Professional Trade Solutions",
-    "heroSubtitle": "Providing quality products and services for you",
+    "heroTitle": "Industrial Hydraulic Torque Solutions",
+    "heroSubtitle": "Reliable torque control systems for wind, petrochemical, and heavy industries",
     "heroCta": "Learn More",
     "featuredProducts": "Featured Products",
     "latestNews": "Latest News",
     "viewAll": "View All",
     "whyChooseUs": "Why Choose Us",
-    "quality": "Quality Assurance",
-    "qualityDesc": "Strict quality control system ensures every product meets standards",
-    "service": "Professional Service",
-    "serviceDesc": "Experienced team providing comprehensive service support",
-    "global": "Global Network",
-    "globalDesc": "Global supply chain network for quick response to your needs"
+    "quality": "Built for Reliability",
+    "qualityDesc": "Core components are fatigue-tested for stable performance in continuous operations",
+    "service": "Engineering Delivery",
+    "serviceDesc": "Integrated support from selection to maintenance for predictable execution",
+    "global": "Response Network",
+    "globalDesc": "Multi-region service collaboration for rapid onsite support"
   },
   "about": {
     "title": "About Us",
-    "companyIntro": "Company Introduction",
-    "companyDesc": "We are a professional trading company dedicated to providing quality products and services. Over the years, we have established a comprehensive supply chain system and built long-term partnerships with many renowned enterprises.",
-    "ourHistory": "Our History",
-    "ourTeam": "Our Team",
-    "ourValues": "Our Values",
+    "companyIntro": "Company Profile",
+    "companyDesc": "We focus on hydraulic torque systems and applications, delivering traceable and repeatable fastening standards across industrial operations.",
+    "ourHistory": "Milestones",
+    "ourTeam": "Core Team",
+    "ourValues": "Value Proposition",
     "mission": "Mission",
-    "missionDesc": "To provide the highest quality products and services for our customers",
+    "missionDesc": "Make critical fastening operations safer, faster, and more controllable",
     "vision": "Vision",
-    "visionDesc": "To become a leading trade service provider",
+    "visionDesc": "Be a trusted long-term technology partner in industrial torque solutions",
     "values": "Values",
-    "valuesDesc": "Integrity, Professionalism, Innovation, Win-Win"
+    "valuesDesc": "Professional, Reliable, Collaborative, Long-term"
   },
   "products": {
     "title": "Products",
@@ -49,12 +49,13 @@
     "all": "All",
     "readMore": "Read More",
     "backToList": "Back to List",
-    "related": "Related News"
+    "related": "Related Articles",
+    "noResults": "No news found"
   },
   "contact": {
     "title": "Contact Us",
-    "getInTouch": "Get in Touch",
-    "getInTouchDesc": "Feel free to contact us if you have any questions or needs",
+    "getInTouch": "Contact Our Engineering Team",
+    "getInTouchDesc": "Share your operation context and we will provide technical recommendations within 24 hours",
     "form": {
       "name": "Name",
       "email": "Email",
@@ -67,9 +68,9 @@
       "emailPlaceholder": "Enter your email",
       "phonePlaceholder": "Enter your phone",
       "companyPlaceholder": "Enter your company name",
-      "subjectPlaceholder": "Enter subject",
+      "subjectPlaceholder": "Enter your subject",
       "messagePlaceholder": "Enter your message",
-      "success": "Message sent successfully! We will contact you soon.",
+      "success": "Message submitted successfully. We will contact you soon.",
       "error": "Submission failed. Please try again later."
     },
     "info": {
@@ -81,15 +82,15 @@
     }
   },
   "footer": {
-    "companyDesc": "Professional trade service provider dedicated to quality products and services",
+    "companyDesc": "Focused on industrial hydraulic torque technologies with high-standard fastening systems and engineering services.",
     "quickLinks": "Quick Links",
-    "contactUs": "Contact Us",
+    "contactUs": "Contact",
     "followUs": "Follow Us",
     "copyright": "All Rights Reserved"
   },
   "common": {
     "loading": "Loading...",
-    "error": "Loading failed",
+    "error": "Load failed",
     "retry": "Retry",
     "submit": "Submit",
     "cancel": "Cancel",

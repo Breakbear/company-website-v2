@@ -11,12 +11,18 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+const normalizeLanguage = (lang: string | undefined): Language => {
+  return lang === 'en-US' ? 'en-US' : 'zh-CN';
+};
+
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { t, i18n } = useTranslation();
-  const [language, setLanguageState] = useState<Language>((i18n.language as Language) || 'zh-CN');
+  const [language, setLanguageState] = useState<Language>(normalizeLanguage(i18n.language));
 
   useEffect(() => {
-    setLanguageState(i18n.language as Language);
+    const normalizedLanguage = normalizeLanguage(i18n.language);
+    setLanguageState(normalizedLanguage);
+    document.documentElement.lang = normalizedLanguage;
   }, [i18n.language]);
 
   const setLanguage = (lang: Language) => {

@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shield, Users, Globe } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import HeroSlider from '../components/common/HeroSlider';
-import SectionTitle from '../components/common/SectionTitle';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import ProductCard from '../components/common/ProductCard';
 import NewsCard from '../components/common/NewsCard';
-import LoadingSpinner from '../components/common/LoadingSpinner';
+import Hero from '../components/home/Hero';
+import StrengthMetrics from '../components/home/StrengthMetrics';
+import BrandStoryBlock from '../components/home/BrandStoryBlock';
+import MilestoneTimeline from '../components/home/MilestoneTimeline';
+import TeamGrid from '../components/home/TeamGrid';
+import PremiumCTA from '../components/home/PremiumCTA';
 import { getFeaturedProducts, Product } from '../services/product.service';
 import { getLatestNews, News } from '../services/news.service';
+import { defaultHomepageContent, getSettings, Settings } from '../services/settings.service';
 
 const Home: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [settings, setSettings] = useState<Settings | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [news, setNews] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,14 +25,16 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productsRes, newsRes] = await Promise.all([
+        const [settingsRes, productsRes, newsRes] = await Promise.all([
+          getSettings(),
           getFeaturedProducts(),
           getLatestNews(3),
         ]);
+        setSettings(settingsRes.data);
         setProducts(productsRes.data);
         setNews(newsRes.data);
       } catch (error) {
-        console.error('Failed to fetch data:', error);
+        console.error('Failed to fetch homepage data:', error);
       } finally {
         setLoading(false);
       }
@@ -35,152 +43,92 @@ const Home: React.FC = () => {
     fetchData();
   }, []);
 
-  const defaultSlides = [
-    {
-      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920',
-      title: { zh: '专业贸易解决方案', en: 'Professional Trade Solutions' },
-    },
-    {
-      image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920',
-      title: { zh: '全球供应链网络', en: 'Global Supply Chain Network' },
-    },
-    {
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920',
-      title: { zh: '品质服务保障', en: 'Quality Service Guarantee' },
-    },
-  ];
+  const homepageContent = useMemo(
+    () => settings?.homepageContent ?? defaultHomepageContent,
+    [settings?.homepageContent]
+  );
 
-  const features = [
-    {
-      icon: Shield,
-      title: t('home.quality'),
-      description: t('home.qualityDesc'),
-    },
-    {
-      icon: Users,
-      title: t('home.service'),
-      description: t('home.serviceDesc'),
-    },
-    {
-      icon: Globe,
-      title: t('home.global'),
-      description: t('home.globalDesc'),
-    },
-  ];
+  if (loading) {
+    return (
+      <div className="flex min-h-[70vh] items-center justify-center bg-industrial-950">
+        <LoadingSpinner size="large" />
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <HeroSlider slides={defaultSlides} />
+    <div className="bg-industrial-950 text-white">
+      <Hero slides={homepageContent.heroSlides} language={language} />
+      <StrengthMetrics metrics={homepageContent.strengthMetrics} language={language} />
+      <BrandStoryBlock story={homepageContent.brandStory} language={language} />
+      <MilestoneTimeline milestones={homepageContent.milestones} language={language} />
+      <TeamGrid team={homepageContent.team} language={language} />
 
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="section-industrial">
         <div className="container-custom">
-          <SectionTitle
-            title={t('home.whyChooseUs')}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="w-14 h-14 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="w-7 h-7 text-primary-600" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24">
-        <div className="container-custom">
-          <div className="flex items-center justify-between mb-8 md:mb-12">
-            <SectionTitle title={t('home.featuredProducts')} centered={false} />
-            <Link
-              to="/products"
-              className="hidden md:flex items-center text-primary-600 hover:text-primary-700 font-medium"
-            >
-              <span>{t('home.viewAll')}</span>
-              <ArrowRight className="w-5 h-5 ml-1" />
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <div>
+              <p className="section-kicker">{language === 'zh-CN' ? '产品精选' : 'Featured Products'}</p>
+              <h2 className="section-heading">{t('home.featuredProducts')}</h2>
+            </div>
+            <Link to="/products" className="hidden items-center gap-2 text-sm text-primary-200 transition hover:text-primary-100 sm:inline-flex">
+              {t('home.viewAll')}
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          {loading ? (
-            <LoadingSpinner size="large" className="py-12" />
-          ) : products.length > 0 ? (
+          {products.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
                 {products.slice(0, 4).map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))}
               </div>
-              <div className="mt-8 text-center md:hidden">
-                <Link to="/products" className="btn-secondary">
+              <div className="mt-6 text-center sm:hidden">
+                <Link to="/products" className="btn-ghost">
                   {t('home.viewAll')}
                 </Link>
               </div>
             </>
           ) : (
-            <p className="text-center text-gray-500 py-12">
-              {t('products.noResults')}
-            </p>
+            <p className="py-6 text-industrial-300">{t('products.noResults')}</p>
           )}
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="section-industrial-muted">
         <div className="container-custom">
-          <div className="flex items-center justify-between mb-8 md:mb-12">
-            <SectionTitle title={t('home.latestNews')} centered={false} />
-            <Link
-              to="/news"
-              className="hidden md:flex items-center text-primary-600 hover:text-primary-700 font-medium"
-            >
-              <span>{t('home.viewAll')}</span>
-              <ArrowRight className="w-5 h-5 ml-1" />
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <div>
+              <p className="section-kicker">{language === 'zh-CN' ? '新闻动态' : 'Newsroom'}</p>
+              <h2 className="section-heading">{t('home.latestNews')}</h2>
+            </div>
+            <Link to="/news" className="hidden items-center gap-2 text-sm text-primary-200 transition hover:text-primary-100 sm:inline-flex">
+              {t('home.viewAll')}
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          {loading ? (
-            <LoadingSpinner size="large" className="py-12" />
-          ) : news.length > 0 ? (
+          {news.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
                 {news.map((item) => (
                   <NewsCard key={item._id} news={item} />
                 ))}
               </div>
-              <div className="mt-8 text-center md:hidden">
-                <Link to="/news" className="btn-secondary">
+              <div className="mt-6 text-center sm:hidden">
+                <Link to="/news" className="btn-ghost">
                   {t('home.viewAll')}
                 </Link>
               </div>
             </>
           ) : (
-            <p className="text-center text-gray-500 py-12">
-              {t('news.noResults')}
-            </p>
+            <p className="py-6 text-industrial-300">{t('news.noResults')}</p>
           )}
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-primary-600">
-        <div className="container-custom text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            {t('contact.getInTouch')}
-          </h2>
-          <p className="text-primary-100 mb-8 max-w-2xl mx-auto">
-            {t('contact.getInTouchDesc')}
-          </p>
-          <Link to="/contact" className="btn-primary bg-white text-primary-600 hover:bg-gray-100">
-            {t('contact.form.submit')}
-          </Link>
-        </div>
-      </section>
+      <PremiumCTA cta={homepageContent.cta} language={language} />
     </div>
   );
 };

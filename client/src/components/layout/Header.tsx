@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe } from 'lucide-react';
+import { Globe, Menu, Wrench, X } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 const Header: React.FC = () => {
@@ -10,12 +10,14 @@ const Header: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 16);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
 
   const navLinks = [
     { path: '/', label: t('nav.home') },
@@ -25,33 +27,37 @@ const Header: React.FC = () => {
     { path: '/contact', label: t('nav.contact') },
   ];
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'zh-CN' ? 'en-US' : 'zh-CN');
-  };
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
+      className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${
+        isScrolled
+          ? 'border-industrial-700/80 bg-industrial-950/95 backdrop-blur-lg'
+          : 'border-industrial-800/50 bg-industrial-950/75 backdrop-blur'
       }`}
     >
       <div className="container-custom">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <Link to="/" className="flex items-center space-x-2">
-            <span className="text-xl md:text-2xl font-bold text-primary-600">
-              {language === 'zh-CN' ? '贸易公司' : 'Trade Co.'}
+        <div className="flex h-16 items-center justify-between md:h-20">
+          <Link to="/" className="group inline-flex items-center gap-2">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-400/50 bg-primary-500/15 text-primary-200">
+              <Wrench className="h-4 w-4" />
             </span>
+            <div>
+              <p className="font-display text-lg leading-none text-white md:text-xl">
+                {language === 'zh-CN' ? '海岳液压扳手' : 'HydraTorque'}
+              </p>
+              <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-industrial-300">
+                {language === 'zh-CN' ? '工业紧固系统' : 'Industrial Fastening Systems'}
+              </p>
+            </div>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden items-center gap-7 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors duration-200 ${
-                  location.pathname === link.path
-                    ? 'text-primary-600'
-                    : 'text-gray-700 hover:text-primary-600'
+                className={`text-sm transition-colors ${
+                  location.pathname === link.path ? 'text-primary-200' : 'text-industrial-100 hover:text-primary-200'
                 }`}
               >
                 {link.label}
@@ -59,45 +65,44 @@ const Header: React.FC = () => {
             ))}
           </nav>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-2">
             <button
-              onClick={toggleLanguage}
-              className="flex items-center space-x-1 text-gray-600 hover:text-primary-600 transition-colors"
+              type="button"
+              onClick={() => setLanguage(language === 'zh-CN' ? 'en-US' : 'zh-CN')}
+              className="inline-flex items-center gap-1 rounded-full border border-industrial-700 bg-industrial-900/70 px-3 py-1.5 text-xs text-industrial-100 transition hover:border-primary-400/60 hover:text-primary-100"
             >
-              <Globe className="w-5 h-5" />
-              <span className="text-sm">{language === 'zh-CN' ? 'EN' : '中文'}</span>
+              <Globe className="h-4 w-4" />
+              <span>{language === 'zh-CN' ? 'EN' : '中文'}</span>
             </button>
-
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-600 hover:text-primary-600"
+              type="button"
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              className="rounded-md border border-industrial-700 bg-industrial-900/70 p-2 text-industrial-100 transition hover:text-primary-100 md:hidden"
+              aria-label="Toggle menu"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
-
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <nav className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`text-base font-medium transition-colors duration-200 ${
-                    location.pathname === link.path
-                      ? 'text-primary-600'
-                      : 'text-gray-700 hover:text-primary-600'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        )}
       </div>
+
+      {isMenuOpen && (
+        <div className="border-t border-industrial-800/80 bg-industrial-950 md:hidden">
+          <nav className="container-custom flex flex-col gap-1 py-3">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`rounded-md px-3 py-2 text-sm ${
+                  location.pathname === link.path ? 'bg-industrial-800 text-primary-100' : 'text-industrial-100 hover:bg-industrial-900'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
   );
 };

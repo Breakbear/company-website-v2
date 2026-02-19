@@ -21,25 +21,26 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   };
 
   return (
-    <Link to={`/news/${news._id}`} className="card group">
-      <div className="aspect-w-16 aspect-h-9 relative overflow-hidden">
+    <Link to={`/news/${news._id}`} className="industrial-card group block overflow-hidden bg-industrial-900/75">
+      <div className="relative overflow-hidden">
         {news.coverImage ? (
           <img
             src={news.coverImage}
             alt={language === 'zh-CN' ? news.title.zh : news.title.en}
-            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+            className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-48 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
-            <span className="text-white text-lg font-medium">
+          <div className="flex h-52 w-full items-center justify-center bg-gradient-to-br from-industrial-800 to-industrial-950">
+            <span className="text-lg font-medium text-primary-100">
               {language === 'zh-CN' ? '新闻' : 'News'}
             </span>
           </div>
         )}
+        <div className="absolute inset-0 bg-gradient-to-t from-industrial-950/35 via-transparent to-transparent" />
       </div>
-      <div className="p-4">
-        <div className="flex items-center text-sm text-gray-500 mb-2">
-          <Calendar className="w-4 h-4 mr-1" />
+      <div className="p-5">
+        <div className="mb-2 flex items-center text-sm text-industrial-300">
+          <Calendar className="mr-1 h-4 w-4" />
           <span>{formatDate(news.publishedAt)}</span>
           {news.category && (
             <>
@@ -48,15 +49,15 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
             </>
           )}
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+        <h3 className="line-clamp-2 text-lg font-semibold text-white">
           {language === 'zh-CN' ? news.title.zh : news.title.en}
         </h3>
-        <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+        <p className="mt-2 line-clamp-2 text-sm text-industrial-200">
           {language === 'zh-CN' ? news.summary?.zh || news.content.zh : news.summary?.en || news.content.en}
         </p>
-        <div className="flex items-center text-primary-600 text-sm font-medium group-hover:text-primary-700">
+        <div className="mt-4 flex items-center text-sm font-medium text-primary-200 group-hover:text-primary-100">
           <span>{language === 'zh-CN' ? '阅读更多' : 'Read More'}</span>
-          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
         </div>
       </div>
     </Link>

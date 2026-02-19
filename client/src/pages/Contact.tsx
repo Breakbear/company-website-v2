@@ -50,17 +50,17 @@ const Contact: React.FC = () => {
     {
       icon: MapPin,
       title: t('contact.info.address'),
-      content: language === 'zh-CN' ? '中国上海市浦东新区' : 'Pudong New Area, Shanghai, China',
+      content: language === 'zh-CN' ? '中国上海市浦东新区张江工业园' : 'Zhangjiang Industrial Park, Pudong, Shanghai, China',
     },
     {
       icon: Phone,
       title: t('contact.info.phone'),
-      content: '+86 21 1234 5678',
+      content: '+86 21 5033 8899',
     },
     {
       icon: Mail,
       title: t('contact.info.email'),
-      content: 'info@company.com',
+      content: 'service@hydra-torque.com',
     },
     {
       icon: Clock,
@@ -207,7 +207,7 @@ const Contact: React.FC = () => {
                   >
                     {loading ? (
                       <span className="flex items-center justify-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-industrial-950" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>

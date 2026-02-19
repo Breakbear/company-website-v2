@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 import path from 'path';
+import { defaultHomepageContent } from './config/homepage-content';
 
 const dataDir = path.join(__dirname, '../data');
 if (!fs.existsSync(dataDir)) {
@@ -28,47 +29,47 @@ const createSampleProducts = () => {
     const products = [
       {
         id: uuidv4(),
-        nameZh: '电子产品A',
-        nameEn: 'Electronics A',
-        descZh: '高品质电子产品，性能卓越',
-        descEn: 'High quality electronics with excellent performance',
-        category: 'electronics',
-        images: JSON.stringify(['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800']),
+        nameZh: '中空液压扳手 HTX-600',
+        nameEn: 'Hollow Hydraulic Wrench HTX-600',
+        descZh: '适用于风机塔筒、法兰螺栓等高强度紧固场景，兼顾精度与效率。',
+        descEn: 'Designed for high-load fastening scenarios such as wind tower and flange bolts with precision and speed.',
+        category: 'hydraulic-wrench',
+        images: JSON.stringify(['https://images.unsplash.com/photo-1581093450021-4a7360e9a8f0?w=800']),
         specs: JSON.stringify([
-          { key: '型号', value: 'EA-001' },
-          { key: '功率', value: '100W' },
+          { key: '扭矩范围', value: '185 - 6000 Nm' },
+          { key: '驱动方式', value: '中空驱动' },
         ]),
         featured: 1,
         status: 'active',
       },
       {
         id: uuidv4(),
-        nameZh: '机械设备B',
-        nameEn: 'Machinery B',
-        descZh: '工业级机械设备，稳定可靠',
-        descEn: 'Industrial grade machinery, stable and reliable',
-        category: 'machinery',
+        nameZh: '驱动液压扳手 DTX-280',
+        nameEn: 'Square Drive Hydraulic Wrench DTX-280',
+        descZh: '模块化驱动头设计，适配石化检修等复杂工况。',
+        descEn: 'Modular square-drive architecture for petrochemical maintenance and complex operations.',
+        category: 'hydraulic-wrench',
         images: JSON.stringify(['https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=800']),
         specs: JSON.stringify([
-          { key: '型号', value: 'MB-002' },
-          { key: '重量', value: '500kg' },
+          { key: '扭矩范围', value: '210 - 28000 Nm' },
+          { key: '适配驱动轴', value: '3/4"-2 1/2"' },
         ]),
         featured: 1,
         status: 'active',
       },
       {
         id: uuidv4(),
-        nameZh: '消费品C',
-        nameEn: 'Consumer Goods C',
-        descZh: '优质消费品，品质保证',
-        descEn: 'Premium consumer goods with quality guarantee',
-        category: 'consumer',
-        images: JSON.stringify(['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800']),
+        nameZh: '智能液压泵站 P3000',
+        nameEn: 'Smart Hydraulic Pump P3000',
+        descZh: '支持多工具并联控制，内置压力监测与数据追溯能力。',
+        descEn: 'Supports multi-tool control with integrated pressure monitoring and traceability.',
+        category: 'hydraulic-pump',
+        images: JSON.stringify(['https://images.unsplash.com/photo-1498084393753-b411b2d26b34?w=800']),
         specs: JSON.stringify([
-          { key: '材质', value: '不锈钢' },
-          { key: '尺寸', value: '10x10x5cm' },
+          { key: '工作压力', value: '700 bar' },
+          { key: '控制方式', value: '触控 + 远程' },
         ]),
-        featured: 0,
+        featured: 1,
         status: 'active',
       },
     ];
@@ -102,27 +103,28 @@ const createSampleNews = () => {
     const newsItems = [
       {
         id: uuidv4(),
-        titleZh: '公司成功参加2024年国际贸易展览会',
-        titleEn: 'Company Successfully Attends 2024 International Trade Exhibition',
+        titleZh: '液压扳手平台完成风电检修批量交付',
+        titleEn: 'Hydraulic Torque Platform Delivered for Wind Maintenance Projects',
         contentZh:
-          '我司在2024年国际贸易展览会上取得了良好成果，并与多家国际企业建立了合作关系。展会期间，我们展示了最新产品系列，获得了广泛好评。',
+          '本季度，公司完成多台套液压扳手与泵站系统在沿海风电场的批量部署。项目采用标准化工艺包，实现紧固过程参数可追溯，显著提升检修效率。',
         contentEn:
-          'Our company achieved great success at the 2024 International Trade Exhibition, establishing partnerships with multiple international enterprises.',
-        summaryZh: '公司参加2024年国际贸易展览会并取得良好成果',
-        summaryEn: 'Company attends 2024 International Trade Exhibition with great success',
+          'This quarter we completed a batch deployment of hydraulic torque tools and pump systems in coastal wind farms with traceable fastening parameters and improved maintenance efficiency.',
+        summaryZh: '风电场景批量交付完成，检修效率与作业一致性显著提升。',
+        summaryEn: 'Batch delivery completed for wind projects with higher efficiency and consistency.',
         category: 'company',
         coverImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800',
         author: 'Admin',
       },
       {
         id: uuidv4(),
-        titleZh: '行业趋势：全球贸易数字化转型',
-        titleEn: 'Industry Trend: Digital Transformation in Global Trade',
+        titleZh: '重载螺栓紧固进入“数据化验证”阶段',
+        titleEn: 'Heavy-Bolt Fastening Moves into Data-Validated Operations',
         contentZh:
-          '随着科技发展，全球贸易正在经历数字化转型。电子商务、区块链技术和人工智能正在改变传统贸易模式，为企业带来新的机遇与挑战。',
-        contentEn: 'With the development of technology, global trade is undergoing digital transformation.',
-        summaryZh: '分析全球贸易数字化转型的趋势与影响',
-        summaryEn: 'Analyzing the trends and impacts of digital transformation in global trade',
+          '随着安全与合规要求提高，工业紧固正从“经验驱动”转向“数据驱动”。通过记录压力、扭矩与作业流程参数，企业可实现检修质量闭环与责任追溯。',
+        contentEn:
+          'As safety and compliance requirements rise, industrial fastening is moving from experience-driven work to data-driven validation by recording pressure, torque, and execution traces.',
+        summaryZh: '工业紧固正加速数据化，作业质量闭环成为主流趋势。',
+        summaryEn: 'Data-driven quality loops are becoming the mainstream in industrial fastening.',
         category: 'industry',
         coverImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800',
         author: 'Admin',
@@ -159,10 +161,17 @@ const createSettings = () => {
   if (!existing) {
     const id = uuidv4();
     db.prepare(`
-      INSERT INTO settings (id, siteNameZh, siteNameEn, siteDescriptionZh, siteDescriptionEn, addressZh, addressEn, phone, email)
-      VALUES (?, '贸易公司', 'Trade Company', '专业的贸易服务提供商', 'Professional trade service provider',
-              '中国上海市浦东新区', 'Pudong New Area, Shanghai, China', '+86 21 1234 5678', 'info@company.com')
-    `).run(id);
+      INSERT INTO settings (
+        id, siteNameZh, siteNameEn, siteDescriptionZh, siteDescriptionEn,
+        addressZh, addressEn, phone, email, homepageContent
+      )
+      VALUES (
+        ?, '海岳液压扳手科技', 'HydraTorque Technologies',
+        '高可靠工业级液压扭矩解决方案', 'Reliable industrial hydraulic torque solutions',
+        '中国上海市浦东新区张江工业园', 'Zhangjiang Industrial Park, Pudong, Shanghai, China',
+        '+86 21 5033 8899', 'service@hydra-torque.com', ?
+      )
+    `).run(id, JSON.stringify(defaultHomepageContent));
     console.log('Settings created');
   }
 };
@@ -179,4 +188,3 @@ const seedDatabase = async () => {
 };
 
 seedDatabase();
-

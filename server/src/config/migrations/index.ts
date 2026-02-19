@@ -1,9 +1,10 @@
 import Database from 'better-sqlite3';
 import { initialSchemaMigration } from './001_initial_schema';
 import { indexesMigration } from './002_indexes';
+import { homepageContentMigration } from './003_homepage_content';
 import { Migration } from './types';
 
-const migrations: Migration[] = [initialSchemaMigration, indexesMigration];
+const migrations: Migration[] = [initialSchemaMigration, indexesMigration, homepageContentMigration];
 
 const ensureMigrationsTable = (db: Database.Database): void => {
   db.exec(`
@@ -38,4 +39,3 @@ export const runMigrations = (db: Database.Database): void => {
     console.log(`[migration] Applied ${migration.id} - ${migration.description}`);
   }
 };
-
