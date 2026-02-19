@@ -9,38 +9,38 @@ import {
 } from '../../services/settings.service';
 import type { Settings } from '../../services/settings.service';
 
-const cloneDeep = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
+const cloneHomepageContent = (): HomepageContent =>
+  typeof structuredClone === 'function'
+    ? structuredClone(defaultHomepageContent)
+    : (JSON.parse(JSON.stringify(defaultHomepageContent)) as HomepageContent);
 
-const getNestedValue = (target: unknown, path: string): unknown => {
-  const keys = path.split('.');
-  let current: unknown = target;
-  for (const key of keys) {
-    if (current === null || current === undefined) {
-      return undefined;
-    }
-    current = (current as Record<string, unknown>)[key];
-  }
-  return current;
-};
+const parsePath = (path: string): Array<string | number> =>
+  path.split('.').map((segment) => (/^\d+$/.test(segment) ? Number(segment) : segment));
 
-const setNestedValue = (target: Record<string, unknown>, path: string, value: unknown): void => {
-  const keys = path.split('.');
-  let current: Record<string, unknown> | unknown[] = target;
+const updateAtPath = (source: unknown, path: string, updater: (current: unknown) => unknown): unknown => {
+  const segments = parsePath(path);
 
-  for (let i = 0; i < keys.length - 1; i++) {
-    const key = keys[i];
-    const nextKey = keys[i + 1];
-    const currentRecord = current as Record<string, unknown>;
-
-    if (currentRecord[key] === undefined || currentRecord[key] === null) {
-      currentRecord[key] = /^\d+$/.test(nextKey) ? [] : {};
+  const patch = (current: unknown, depth: number): unknown => {
+    if (depth >= segments.length) {
+      return updater(current);
     }
 
-    current = currentRecord[key] as Record<string, unknown> | unknown[];
-  }
+    const segment = segments[depth];
+    if (typeof segment === 'number') {
+      const nextArray = Array.isArray(current) ? [...current] : [];
+      nextArray[segment] = patch(nextArray[segment], depth + 1);
+      return nextArray;
+    }
 
-  const leafKey = keys[keys.length - 1];
-  (current as Record<string, unknown>)[leafKey] = value;
+    const nextObject: Record<string, unknown> =
+      current && typeof current === 'object' && !Array.isArray(current)
+        ? { ...(current as Record<string, unknown>) }
+        : {};
+    nextObject[segment] = patch(nextObject[segment], depth + 1);
+    return nextObject;
+  };
+
+  return patch(source, 0);
 };
 
 const sectionCardClass = 'rounded-xl border border-gray-200 bg-white p-6 shadow-sm';
@@ -48,10 +48,13 @@ type HomePanel = 'hero' | 'metrics' | 'story' | 'milestones' | 'team' | 'cta';
 
 const AdminSettings: React.FC = () => {
   const { language } = useLanguage();
-  const [settings, setSettings] = useState<Partial<Settings>>({});
+  const [settings, setSettings] = useState<Partial<Settings>>(() => ({
+    homepageContent: cloneHomepageContent(),
+  }));
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
   const [activeHomePanel, setActiveHomePanel] = useState<HomePanel>('hero');
 
   useEffect(() => {
@@ -60,7 +63,7 @@ const AdminSettings: React.FC = () => {
         const response = await getSettings();
         setSettings({
           ...response.data,
-          homepageContent: response.data.homepageContent ?? cloneDeep(defaultHomepageContent),
+          homepageContent: response.data.homepageContent ?? cloneHomepageContent(),
         });
       } catch (error) {
         console.error('Failed to fetch settings:', error);
@@ -72,7 +75,7 @@ const AdminSettings: React.FC = () => {
     fetchSettings();
   }, []);
 
-  const homepageContent = (settings.homepageContent ?? cloneDeep(defaultHomepageContent)) as HomepageContent;
+  const homepageContent = settings.homepageContent as HomepageContent;
   const homePanels: Array<{ key: HomePanel; label: string }> = [
     { key: 'hero', label: language === 'zh-CN' ? 'Hero 轮播' : 'Hero Slides' },
     { key: 'metrics', label: language === 'zh-CN' ? '企业实力' : 'Strength Metrics' },
@@ -83,39 +86,36 @@ const AdminSettings: React.FC = () => {
   ];
 
   const handleChange = (path: string, value: string) => {
-    setSettings((prev) => {
-      const draft = cloneDeep(prev);
-      setNestedValue(draft as Record<string, unknown>, path, value);
-      return draft;
-    });
+    setSettings((prev) => updateAtPath(prev, path, () => value) as Partial<Settings>);
   };
 
   const addArrayItem = (path: string, newItem: unknown) => {
-    setSettings((prev) => {
-      const draft = cloneDeep(prev);
-      const existing = getNestedValue(draft, path);
-      const items = Array.isArray(existing) ? [...existing, newItem] : [newItem];
-      setNestedValue(draft as Record<string, unknown>, path, items);
-      return draft;
-    });
+    setSettings(
+      (prev) =>
+        updateAtPath(prev, path, (current) => {
+          const items = Array.isArray(current) ? [...current] : [];
+          items.push(newItem);
+          return items;
+        }) as Partial<Settings>
+    );
   };
 
   const removeArrayItem = (path: string, index: number) => {
-    setSettings((prev) => {
-      const draft = cloneDeep(prev);
-      const existing = getNestedValue(draft, path);
-      if (!Array.isArray(existing)) {
-        return draft;
-      }
-      const items = existing.filter((_, itemIndex) => itemIndex !== index);
-      setNestedValue(draft as Record<string, unknown>, path, items);
-      return draft;
-    });
+    setSettings(
+      (prev) =>
+        updateAtPath(prev, path, (current) => {
+          if (!Array.isArray(current)) {
+            return current;
+          }
+          return current.filter((_, itemIndex) => itemIndex !== index);
+        }) as Partial<Settings>
+    );
   };
 
   const handleSave = async () => {
     setSaving(true);
     setMessage('');
+    setMessageType('');
     try {
       const payload = {
         ...settings,
@@ -123,10 +123,15 @@ const AdminSettings: React.FC = () => {
       };
       await updateSettings(payload);
       setMessage(language === 'zh-CN' ? '保存成功！' : 'Saved successfully!');
-      setTimeout(() => setMessage(''), 3000);
+      setMessageType('success');
+      setTimeout(() => {
+        setMessage('');
+        setMessageType('');
+      }, 3000);
     } catch (error) {
       console.error('Failed to save settings:', error);
       setMessage(language === 'zh-CN' ? '保存失败，请检查输入内容' : 'Save failed. Please check the form values.');
+      setMessageType('error');
     } finally {
       setSaving(false);
     }
@@ -151,7 +156,7 @@ const AdminSettings: React.FC = () => {
       </div>
 
       {message && (
-        <div className={`rounded-lg p-4 text-sm ${message.includes('成功') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+        <div className={`rounded-lg p-4 text-sm ${messageType === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
           {message}
         </div>
       )}
