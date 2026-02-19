@@ -1,5 +1,7 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import path from 'path';
 import fs from 'fs';
 import './config/database';
@@ -14,6 +16,20 @@ import settingsRoutes from './routes/settings.routes';
 
 const app: Express = express();
 const allowedOrigins = new Set(env.CORS_ORIGIN);
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many authentication requests, please try again later.' },
+});
+const writeLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests, please try again later.' },
+});
 
 app.use(
   cors({
@@ -26,14 +42,15 @@ app.use(
     },
   })
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 app.use('/api/products', productRoutes);
 app.use('/api/news', newsRoutes);
-app.use('/api/contacts', contactRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/upload', uploadRoutes);
+app.use('/api/contacts', writeLimiter, contactRoutes);
+app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/upload', writeLimiter, uploadRoutes);
 app.use('/api/settings', settingsRoutes);
 
 const uploadsDir = path.join(__dirname, '../uploads');
@@ -56,4 +73,3 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 export default app;
-

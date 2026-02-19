@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import db from '../config/database';
 import { v4 as uuidv4 } from 'uuid';
+import { parseLimit, parsePage } from '../utils/pagination';
 
 interface Product {
   id: string;
@@ -35,8 +36,8 @@ const formatProduct = (row: any) => ({
 });
 
 export const getProducts = (req: Request, res: Response): void => {
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
+  const page = parsePage(req.query.page, 1);
+  const limit = parseLimit(req.query.limit, 10, 50);
   const category = req.query.category as string;
   const featured = req.query.featured as string;
   const search = req.query.search as string;

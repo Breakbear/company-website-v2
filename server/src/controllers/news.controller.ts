@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import db from '../config/database';
 import { v4 as uuidv4 } from 'uuid';
+import { parseLimit, parsePage } from '../utils/pagination';
 
 interface NewsRow {
   id: string;
@@ -36,8 +37,8 @@ const formatNews = (row: any) => ({
 });
 
 export const getNewsList = (req: Request, res: Response): void => {
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
+  const page = parsePage(req.query.page, 1);
+  const limit = parseLimit(req.query.limit, 10, 50);
   const category = req.query.category as string;
 
   let whereClause = "WHERE status = 'published'";
@@ -133,7 +134,7 @@ export const deleteNews = (req: Request, res: Response): void => {
 };
 
 export const getLatestNews = (req: Request, res: Response): void => {
-  const limit = parseInt(req.query.limit as string) || 5;
+  const limit = parseLimit(req.query.limit, 5, 20);
   const rows = db.prepare(`
     SELECT * FROM news WHERE status = 'published'
     ORDER BY publishedAt DESC LIMIT ?

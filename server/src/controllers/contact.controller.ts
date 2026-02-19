@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import db from '../config/database';
 import { v4 as uuidv4 } from 'uuid';
 import { body, validationResult } from 'express-validator';
+import { parseLimit, parsePage } from '../utils/pagination';
 
 interface ContactRow {
   id: string;
@@ -58,8 +59,8 @@ export const createContact = [
 ];
 
 export const getContacts = (req: Request, res: Response): void => {
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 20;
+  const page = parsePage(req.query.page, 1);
+  const limit = parseLimit(req.query.limit, 20, 100);
   const status = req.query.status as string;
 
   let whereClause = 'WHERE 1=1';
