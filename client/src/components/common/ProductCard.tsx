@@ -18,6 +18,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <img
             src={product.images[0]}
             alt={language === 'zh-CN' ? product.name.zh : product.name.en}
+            loading="lazy"
+            decoding="async"
             className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (

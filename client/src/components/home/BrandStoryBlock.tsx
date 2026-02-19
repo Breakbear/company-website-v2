@@ -11,7 +11,13 @@ const BrandStoryBlock: React.FC<BrandStoryBlockProps> = ({ story, language }) =>
     <section className="section-industrial-muted">
       <div className="container-custom grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-14">
         <div className="industrial-card angle-cut relative overflow-hidden">
-          <img src={story.image} alt={language === 'zh-CN' ? story.title.zh : story.title.en} className="h-[360px] w-full object-cover md:h-[420px]" />
+          <img
+            src={story.image}
+            alt={language === 'zh-CN' ? story.title.zh : story.title.en}
+            loading="lazy"
+            decoding="async"
+            className="h-[360px] w-full object-cover md:h-[420px]"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-industrial-950/70 via-transparent to-transparent" />
         </div>
         <div>

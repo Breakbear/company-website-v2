@@ -25,10 +25,16 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const status = error.response?.status;
+    const hasToken = Boolean(localStorage.getItem('token'));
+    const isAdminPath = window.location.pathname.startsWith('/admin');
+
+    if (status === 401 && hasToken) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/admin/login';
+      if (isAdminPath) {
+        window.location.href = '/admin/login';
+      }
     }
     return Promise.reject(error);
   }

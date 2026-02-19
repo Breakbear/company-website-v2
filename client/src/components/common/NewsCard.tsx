@@ -27,6 +27,8 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
           <img
             src={news.coverImage}
             alt={language === 'zh-CN' ? news.title.zh : news.title.en}
+            loading="lazy"
+            decoding="async"
             className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (

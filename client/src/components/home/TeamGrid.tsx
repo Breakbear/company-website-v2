@@ -22,6 +22,8 @@ const TeamGrid: React.FC<TeamGridProps> = ({ team, language }) => {
               <img
                 src={member.image}
                 alt={language === 'zh-CN' ? member.name.zh : member.name.en}
+                loading="lazy"
+                decoding="async"
                 className="h-64 w-full object-cover"
               />
               <div className="p-5">
