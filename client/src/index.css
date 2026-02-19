@@ -6,8 +6,9 @@
 
 @layer base {
   :root {
-    --bg-0: #080b12;
-    --bg-1: #101724;
+    --bg-0: #07090d;
+    --bg-1: #10151d;
+    --bg-2: #171d27;
     --text-main: #f7f8fa;
   }
 
@@ -19,9 +20,9 @@
   body {
     @apply antialiased text-industrial-100;
     background:
-      radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.1), transparent 35%),
-      radial-gradient(circle at 85% 0%, rgba(49, 64, 80, 0.24), transparent 40%),
-      linear-gradient(145deg, var(--bg-0), var(--bg-1));
+      radial-gradient(circle at 18% 12%, rgba(244, 139, 0, 0.2), transparent 34%),
+      radial-gradient(circle at 90% 0%, rgba(61, 75, 93, 0.26), transparent 42%),
+      linear-gradient(140deg, var(--bg-0), var(--bg-1) 52%, var(--bg-2));
     color: var(--text-main);
     font-family: Inter, 'Noto Sans SC', system-ui, sans-serif;
     min-height: 100vh;
@@ -34,15 +35,15 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-md border border-primary-300 bg-primary-500 px-6 py-3 text-sm font-semibold text-industrial-950 transition-all duration-200 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-0;
+    @apply inline-flex items-center justify-center rounded-sm border border-primary-300 bg-primary-500 px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-industrial-950 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-0;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-md border border-primary-400/60 bg-primary-500/10 px-6 py-3 text-sm font-semibold text-primary-100 transition-colors duration-200 hover:bg-primary-500/20 focus:outline-none focus:ring-2 focus:ring-primary-300/50;
+    @apply inline-flex items-center justify-center rounded-sm border border-primary-500/70 bg-primary-500/10 px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-primary-100 transition-colors duration-200 hover:bg-primary-500/20 focus:outline-none focus:ring-2 focus:ring-primary-300/50;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-md border border-industrial-600 bg-industrial-900/70 px-6 py-3 text-sm font-medium text-industrial-100 transition-colors duration-200 hover:border-primary-400/60 hover:text-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-300/40;
+    @apply inline-flex items-center justify-center rounded-sm border border-industrial-500 bg-industrial-900/65 px-6 py-3 text-sm font-medium uppercase tracking-[0.08em] text-industrial-100 transition-colors duration-200 hover:border-primary-400/70 hover:text-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-300/40;
   }
 
   .section-industrial {
@@ -50,11 +51,11 @@
   }
 
   .section-industrial-muted {
-    @apply relative border-y border-industrial-800/70 bg-industrial-900/45 py-16 md:py-24;
+    @apply relative border-y border-industrial-800/70 bg-industrial-900/55 py-16 md:py-24;
   }
 
   .section-kicker {
-    @apply inline-flex rounded-full border border-primary-400/50 bg-primary-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-primary-200;
+    @apply inline-flex rounded-sm border border-primary-400/55 bg-primary-500/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-primary-200;
   }
 
   .section-heading {
@@ -70,11 +71,11 @@
   }
 
   .industrial-card {
-    @apply rounded-2xl border border-industrial-700/70 shadow-[0_20px_40px_-28px_rgba(0,0,0,0.9)];
+    @apply rounded-md border border-industrial-700/85 shadow-[0_24px_50px_-35px_rgba(0,0,0,0.95)];
   }
 
   .card {
-    @apply rounded-xl border border-industrial-700/70 bg-industrial-900/70 shadow-[0_20px_40px_-28px_rgba(0,0,0,0.9)] transition-transform duration-200 hover:-translate-y-0.5;
+    @apply rounded-md border border-industrial-700/85 bg-industrial-900/70 shadow-[0_24px_50px_-35px_rgba(0,0,0,0.95)] transition-transform duration-200 hover:-translate-y-0.5;
   }
 
   .input-field {
@@ -94,6 +95,27 @@
   .noise-overlay {
     background-image: radial-gradient(rgba(255, 255, 255, 0.1) 0.4px, transparent 0.4px);
     background-size: 3px 3px;
+  }
+
+  .grid-overlay {
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    background-size: 52px 52px;
+  }
+
+  .panel-stripe {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(244, 139, 0, 0.24) 0,
+      rgba(244, 139, 0, 0.24) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  }
+
+  .angle-cut {
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 22px, 100% 100%, 0 100%);
   }
 }
 

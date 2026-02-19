@@ -37,13 +37,21 @@ const Hero: React.FC<HeroProps> = ({ slides, language }) => {
         style={{ backgroundImage: `url(${currentSlide.image})` }}
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-industrial-950/95 via-industrial-950/70 to-industrial-900/50" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(212,175,55,0.16),transparent_35%),radial-gradient(circle_at_80%_70%,rgba(245,208,79,0.18),transparent_40%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,rgba(244,139,0,0.24),transparent_33%),radial-gradient(circle_at_82%_72%,rgba(255,188,87,0.18),transparent_38%)]" />
+      <div className="grid-overlay absolute inset-0 -z-10 opacity-30" />
       <div className="noise-overlay absolute inset-0 -z-10 opacity-35" />
 
       <div className="container-custom relative flex min-h-[82vh] items-center py-24">
         <div className="max-w-3xl animate-[fade-in-up_700ms_ease-out]">
-          <p className="mb-5 inline-flex items-center rounded-full border border-primary-400/50 bg-primary-500/15 px-4 py-1.5 text-xs uppercase tracking-[0.22em] text-primary-200">
-            {language === 'zh-CN' ? '液压扭矩科技' : 'Hydraulic Torque Technology'}
+          <div className="mb-5 inline-flex items-center gap-3">
+            <span className="panel-stripe block h-2 w-14 rounded-sm" />
+            <p className="inline-flex items-center rounded-sm border border-primary-400/60 bg-primary-500/15 px-4 py-1.5 text-xs uppercase tracking-[0.22em] text-primary-100">
+              {language === 'zh-CN' ? '海拓斯特 Haituoste' : 'HAITUOSTE TORQUE'}
+            </p>
+            <span className="panel-stripe block h-2 w-8 rounded-sm" />
+          </div>
+          <p className="mb-2 text-xs uppercase tracking-[0.18em] text-industrial-200">
+            {language === 'zh-CN' ? '工业液压扭矩系统解决方案' : 'Industrial Hydraulic Torque Solutions'}
           </p>
           <h1 className="font-display text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
             {language === 'zh-CN' ? currentSlide.title.zh : currentSlide.title.en}
@@ -56,7 +64,7 @@ const Hero: React.FC<HeroProps> = ({ slides, language }) => {
               {language === 'zh-CN' ? currentSlide.ctaText.zh : currentSlide.ctaText.en}
             </Link>
             <Link to="/contact" className="btn-ghost">
-              {language === 'zh-CN' ? '获取工程支持' : 'Request Engineering Support'}
+              {language === 'zh-CN' ? '申请技术评估' : 'Request Engineering Review'}
             </Link>
           </div>
         </div>

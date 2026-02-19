@@ -38,12 +38,12 @@ const Header: React.FC = () => {
       <div className="container-custom">
         <div className="flex h-16 items-center justify-between md:h-20">
           <Link to="/" className="group inline-flex items-center gap-2">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary-400/50 bg-primary-500/15 text-primary-200">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-primary-400/70 bg-primary-500/20 text-primary-100">
               <Wrench className="h-4 w-4" />
             </span>
             <div>
               <p className="font-display text-lg leading-none text-white md:text-xl">
-                {language === 'zh-CN' ? '海岳液压扳手' : 'HydraTorque'}
+                {language === 'zh-CN' ? '海拓斯特液压' : 'HAITUOSTE TORQUE'}
               </p>
               <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-industrial-300">
                 {language === 'zh-CN' ? '工业紧固系统' : 'Industrial Fastening Systems'}

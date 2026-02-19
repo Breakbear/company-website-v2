@@ -166,10 +166,10 @@ const createSettings = () => {
         addressZh, addressEn, phone, email, homepageContent
       )
       VALUES (
-        ?, '海岳液压扳手科技', 'HydraTorque Technologies',
+        ?, '海拓斯特液压科技', 'Haituoste Torque Technologies',
         '高可靠工业级液压扭矩解决方案', 'Reliable industrial hydraulic torque solutions',
         '中国上海市浦东新区张江工业园', 'Zhangjiang Industrial Park, Pudong, Shanghai, China',
-        '+86 21 5033 8899', 'service@hydra-torque.com', ?
+        '+86 21 5033 8899', 'service@haituoste.com', ?
       )
     `).run(id, JSON.stringify(defaultHomepageContent));
     console.log('Settings created');

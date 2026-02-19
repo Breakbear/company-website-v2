@@ -20,7 +20,7 @@ const StrengthMetrics: React.FC<StrengthMetricsProps> = ({ metrics, language }) 
           {metrics.map((metric, index) => (
             <div
               key={`${metric.value}-${index}`}
-              className="industrial-card bg-[linear-gradient(160deg,rgba(17,22,33,0.95),rgba(10,13,20,0.9))] p-6"
+              className="industrial-card angle-cut bg-[linear-gradient(155deg,rgba(20,26,36,0.98),rgba(8,11,18,0.92))] p-6"
             >
               <p className="font-display text-4xl font-semibold text-primary-200">{metric.value}</p>
               <p className="mt-2 text-lg font-medium text-white">

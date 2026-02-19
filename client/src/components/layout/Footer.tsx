@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
             <h3 className="font-display text-2xl text-white">
-              {language === 'zh-CN' ? '海岳液压扳手科技' : 'HydraTorque Technologies'}
+              {language === 'zh-CN' ? '海拓斯特液压科技' : 'HAITUOSTE TORQUE TECHNOLOGIES'}
             </h3>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-industrial-300">{t('footer.companyDesc')}</p>
           </div>
@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-primary-200" />
-                <span>service@hydra-torque.com</span>
+                <span>service@haituoste.com</span>
               </li>
             </ul>
           </div>
@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
 
         <div className="mt-10 border-t border-industrial-800 pt-6 text-sm text-industrial-400">
           <p>
-            © {currentYear} {language === 'zh-CN' ? '海岳液压扳手科技' : 'HydraTorque Technologies'}.
+            © {currentYear} {language === 'zh-CN' ? '海拓斯特液压科技' : 'HAITUOSTE TORQUE TECHNOLOGIES'}.
             {' '}
             {t('footer.copyright')}
           </p>

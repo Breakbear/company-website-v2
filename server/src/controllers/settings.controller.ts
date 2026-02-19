@@ -172,7 +172,7 @@ export const getSettings = (req: Request, res: Response): void => {
     const id = uuidv4();
     db.prepare(`
       INSERT INTO settings (id, siteNameZh, siteNameEn, siteDescriptionZh, siteDescriptionEn, homepageContent)
-      VALUES (?, '海岳液压扳手科技', 'HydraTorque Technologies', '高可靠工业级液压扭矩解决方案', 'Reliable industrial hydraulic torque solutions', ?)
+      VALUES (?, '海拓斯特液压科技', 'Haituoste Torque Technologies', '高可靠工业级液压扭矩解决方案', 'Reliable industrial hydraulic torque solutions', ?)
     `).run(id, JSON.stringify(defaultHomepageContent));
 
     row = db.prepare('SELECT * FROM settings WHERE id = ?').get(id) as any;

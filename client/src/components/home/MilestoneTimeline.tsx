@@ -20,8 +20,8 @@ const MilestoneTimeline: React.FC<MilestoneTimelineProps> = ({ milestones, langu
           <div className="space-y-8">
             {milestones.map((milestone, index) => (
               <div key={`${milestone.year}-${index}`} className="relative">
-                <span className="absolute -left-[1.6rem] top-2 h-3 w-3 rounded-full bg-primary-300 shadow-[0_0_0_6px_rgba(212,175,55,0.12)]" />
-                <div className="industrial-card bg-industrial-900/65 p-5">
+                <span className="absolute -left-[1.6rem] top-2 h-3 w-3 rounded-full bg-primary-300 shadow-[0_0_0_6px_rgba(244,139,0,0.16)]" />
+                <div className="industrial-card angle-cut bg-industrial-900/65 p-5">
                   <p className="font-display text-primary-300">{milestone.year}</p>
                   <h3 className="mt-1 text-xl font-semibold text-white">
                     {language === 'zh-CN' ? milestone.title.zh : milestone.title.en}

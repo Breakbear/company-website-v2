@@ -60,7 +60,7 @@ const Contact: React.FC = () => {
     {
       icon: Mail,
       title: t('contact.info.email'),
-      content: 'service@hydra-torque.com',
+      content: 'service@haituoste.com',
     },
     {
       icon: Clock,

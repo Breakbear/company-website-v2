@@ -18,7 +18,7 @@ const TeamGrid: React.FC<TeamGridProps> = ({ team, language }) => {
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
           {team.map((member, index) => (
-            <article key={`${member.name.en}-${index}`} className="industrial-card overflow-hidden bg-industrial-900/70">
+            <article key={`${member.name.en}-${index}`} className="industrial-card angle-cut overflow-hidden bg-industrial-900/70">
               <img
                 src={member.image}
                 alt={language === 'zh-CN' ? member.name.zh : member.name.en}
