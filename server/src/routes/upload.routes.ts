@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import multer from 'multer';
 import path from 'path';
-import { protect } from '../middleware/auth';
+import { protect, authorize } from '../middleware/auth';
 
 const router = Router();
 
@@ -33,7 +33,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.post('/', protect, upload.single('image'), (req: Request, res: Response): void => {
+router.post('/', protect, authorize('admin', 'editor'), upload.single('image'), (req: Request, res: Response): void => {
   if (!req.file) {
     res.status(400).json({ success: false, message: 'No file uploaded' });
     return;
@@ -48,7 +48,7 @@ router.post('/', protect, upload.single('image'), (req: Request, res: Response):
   });
 });
 
-router.post('/multiple', protect, upload.array('images', 10), (req: Request, res: Response): void => {
+router.post('/multiple', protect, authorize('admin', 'editor'), upload.array('images', 10), (req: Request, res: Response): void => {
   if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
     res.status(400).json({ success: false, message: 'No files uploaded' });
     return;

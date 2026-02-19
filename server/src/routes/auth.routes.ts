@@ -1,6 +1,5 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import {
-  register,
   login,
   getMe,
   updateProfile,
@@ -10,7 +9,9 @@ import { protect } from '../middleware/auth';
 
 const router = Router();
 
-router.post('/register', register);
+router.post('/register', (_req: Request, res: Response): void => {
+  res.status(403).json({ success: false, message: 'Self-registration is disabled' });
+});
 router.post('/login', login);
 router.get('/me', protect, getMe);
 router.put('/profile', protect, updateProfile);

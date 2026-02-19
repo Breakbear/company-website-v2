@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
+import { env } from '../config/env';
 
-const generateToken = (id: string): string => {
-  const secret = process.env.JWT_SECRET || 'secret';
-  return jwt.sign({ id }, secret, { expiresIn: '7d' });
+const generateToken = (id: string, role: string): string => {
+  return jwt.sign({ id, role }, env.JWT_SECRET, { expiresIn: '7d' });
 };
 
 export const register = [
@@ -38,7 +38,7 @@ export const register = [
       VALUES (?, ?, ?, ?, 'editor')
     `).run(id, username, email, hashedPassword);
 
-    const token = generateToken(id);
+    const token = generateToken(id, 'editor');
 
     res.status(201).json({
       success: true,
@@ -80,7 +80,7 @@ export const login = [
 
     db.prepare('UPDATE users SET lastLogin = ? WHERE id = ?').run(new Date().toISOString(), user.id);
 
-    const token = generateToken(user.id);
+    const token = generateToken(user.id, user.role);
 
     res.json({
       success: true,
