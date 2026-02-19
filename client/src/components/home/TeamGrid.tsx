@@ -1,5 +1,6 @@
 import React from 'react';
 import type { TeamMember } from '../../services/settings.service';
+import { buildUnsplashSrcSet, optimizeImageUrl } from '../../utils/image';
 
 interface TeamGridProps {
   team: TeamMember[];
@@ -17,24 +18,31 @@ const TeamGrid: React.FC<TeamGridProps> = ({ team, language }) => {
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {team.map((member, index) => (
-            <article key={`${member.name.en}-${index}`} className="industrial-card angle-cut overflow-hidden bg-industrial-900/70">
-              <img
-                src={member.image}
-                alt={language === 'zh-CN' ? member.name.zh : member.name.en}
-                loading="lazy"
-                decoding="async"
-                className="h-64 w-full object-cover"
-              />
-              <div className="p-5">
-                <h3 className="text-xl font-semibold text-white">{language === 'zh-CN' ? member.name.zh : member.name.en}</h3>
-                <p className="mt-1 text-sm text-primary-200">{language === 'zh-CN' ? member.role.zh : member.role.en}</p>
-                <p className="mt-3 text-sm leading-relaxed text-industrial-200">
-                  {language === 'zh-CN' ? member.bio.zh : member.bio.en}
-                </p>
-              </div>
-            </article>
-          ))}
+          {team.map((member, index) => {
+            const imageUrl = optimizeImageUrl(member.image, { width: 640, quality: 75 });
+            const imageSrcSet = buildUnsplashSrcSet(member.image, [320, 480, 640, 960], 75);
+
+            return (
+              <article key={`${member.name.en}-${index}`} className="industrial-card angle-cut overflow-hidden bg-industrial-900/70">
+                <img
+                  src={imageUrl}
+                  srcSet={imageSrcSet}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  alt={language === 'zh-CN' ? member.name.zh : member.name.en}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-64 w-full object-cover"
+                />
+                <div className="p-5">
+                  <h3 className="text-xl font-semibold text-white">{language === 'zh-CN' ? member.name.zh : member.name.en}</h3>
+                  <p className="mt-1 text-sm text-primary-200">{language === 'zh-CN' ? member.role.zh : member.role.en}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-industrial-200">
+                    {language === 'zh-CN' ? member.bio.zh : member.bio.en}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

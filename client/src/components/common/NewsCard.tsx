@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { News } from '../../services/news.service';
+import { buildUnsplashSrcSet, optimizeImageUrl } from '../../utils/image';
 
 interface NewsCardProps {
   news: News;
@@ -10,6 +11,8 @@ interface NewsCardProps {
 
 const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   const { language } = useLanguage();
+  const optimizedCover = optimizeImageUrl(news.coverImage, { width: 800, quality: 74 });
+  const coverSrcSet = buildUnsplashSrcSet(news.coverImage, [480, 800, 1200], 74);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -25,7 +28,9 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
       <div className="relative overflow-hidden">
         {news.coverImage ? (
           <img
-            src={news.coverImage}
+            src={optimizedCover}
+            srcSet={coverSrcSet}
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             alt={language === 'zh-CN' ? news.title.zh : news.title.en}
             loading="lazy"
             decoding="async"

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { BrandStoryContent } from '../../services/settings.service';
+import { buildUnsplashSrcSet, optimizeImageUrl } from '../../utils/image';
 
 interface BrandStoryBlockProps {
   story: BrandStoryContent;
@@ -7,12 +8,17 @@ interface BrandStoryBlockProps {
 }
 
 const BrandStoryBlock: React.FC<BrandStoryBlockProps> = ({ story, language }) => {
+  const storyImageUrl = optimizeImageUrl(story.image, { width: 1200, quality: 74 });
+  const storySrcSet = buildUnsplashSrcSet(story.image, [720, 1080, 1440], 74);
+
   return (
     <section className="section-industrial-muted">
       <div className="container-custom grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-14">
         <div className="industrial-card angle-cut relative overflow-hidden">
           <img
-            src={story.image}
+            src={storyImageUrl}
+            srcSet={storySrcSet}
+            sizes="(max-width: 1024px) 100vw, 50vw"
             alt={language === 'zh-CN' ? story.title.zh : story.title.en}
             loading="lazy"
             decoding="async"

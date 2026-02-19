@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { Product } from '../../services/product.service';
+import { buildUnsplashSrcSet, optimizeImageUrl } from '../../utils/image';
 
 interface ProductCardProps {
   product: Product;
@@ -10,13 +11,18 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { language } = useLanguage();
+  const imageUrl = product.images?.[0] || '';
+  const optimizedImageUrl = optimizeImageUrl(imageUrl, { width: 800, quality: 74 });
+  const imageSrcSet = buildUnsplashSrcSet(imageUrl, [480, 800, 1200], 74);
 
   return (
     <Link to={`/products/${product._id}`} className="industrial-card group block overflow-hidden bg-industrial-900/75">
       <div className="relative overflow-hidden">
         {product.images && product.images.length > 0 ? (
           <img
-            src={product.images[0]}
+            src={optimizedImageUrl}
+            srcSet={imageSrcSet}
+            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
             alt={language === 'zh-CN' ? product.name.zh : product.name.en}
             loading="lazy"
             decoding="async"

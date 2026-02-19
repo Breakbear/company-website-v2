@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { HomepageHeroSlide } from '../../services/settings.service';
+import { optimizeImageUrl } from '../../utils/image';
 
 interface HeroProps {
   slides: HomepageHeroSlide[];
@@ -28,13 +29,24 @@ const Hero: React.FC<HeroProps> = ({ slides, language }) => {
   }
 
   const currentSlide = slides[activeIndex];
+  const heroImageUrl = optimizeImageUrl(currentSlide.image, { width: 1920, quality: 72 });
+
+  useEffect(() => {
+    const nextSlide = slides[(activeIndex + 1) % slides.length];
+    if (!nextSlide) {
+      return;
+    }
+
+    const preloaded = new Image();
+    preloaded.src = optimizeImageUrl(nextSlide.image, { width: 1920, quality: 72 });
+  }, [activeIndex, slides]);
 
   return (
     <section className="relative isolate min-h-[82vh] overflow-hidden border-b border-industrial-800/80">
       <div className="absolute inset-0 -z-20 bg-industrial-950" />
       <div
         className="absolute inset-0 -z-10 bg-cover bg-center transition-all duration-700"
-        style={{ backgroundImage: `url(${currentSlide.image})` }}
+        style={{ backgroundImage: `url(${heroImageUrl})` }}
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-industrial-950/95 via-industrial-950/70 to-industrial-900/50" />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,rgba(244,139,0,0.24),transparent_33%),radial-gradient(circle_at_82%_72%,rgba(255,188,87,0.18),transparent_38%)]" />
