@@ -37,3 +37,14 @@ GitHub Actions workflow `.github/workflows/verify.yml` now runs on push/PR to `m
 - `npm run verify`
 
 Any regression in typecheck/build/smoke tests will block the pipeline.
+
+## 5) Database migrations
+
+SQLite schema is now managed via versioned migrations (`schema_migrations` table).
+
+- Migrations run automatically on server startup.
+- You can also run them manually:
+
+```bash
+npm run migrate --workspace=server
+```

@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { login } from '../../services/auth.service';
+import { useAuth } from '../../context/AuthContext';
 
 const Login: React.FC = () => {
   const { language } = useLanguage();
+  const { login: saveAuth, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const from = (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname || '/admin';
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/admin', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,9 +30,8 @@ const Login: React.FC = () => {
 
     try {
       const response = await login(email, password);
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.data));
-      navigate('/admin');
+      saveAuth(response.token, response.data);
+      navigate(from, { replace: true });
     } catch (err: unknown) {
       setError(
         language === 'zh-CN'

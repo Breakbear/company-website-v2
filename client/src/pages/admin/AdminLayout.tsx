@@ -11,7 +11,7 @@ import {
   X,
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
-import { AuthProvider, useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const AdminLayoutContent: React.FC = () => {
   const { t, language } = useLanguage();
@@ -121,12 +121,6 @@ const AdminLayoutContent: React.FC = () => {
   );
 };
 
-const AdminLayout: React.FC = () => {
-  return (
-    <AuthProvider>
-      <AdminLayoutContent />
-    </AuthProvider>
-  );
-};
+const AdminLayout: React.FC = () => <AdminLayoutContent />;
 
 export default AdminLayout;

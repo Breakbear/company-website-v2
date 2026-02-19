@@ -20,13 +20,8 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/admin/login');
-      return;
-    }
     fetchStats();
-  }, [navigate]);
+  }, []);
 
   const fetchStats = async () => {
     try {
